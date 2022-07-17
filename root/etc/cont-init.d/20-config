@@ -1,0 +1,3 @@
+#!/command/with-contenv bash
+[[ -e "{CONFIG_DIR}/sonarr.pid" ]] && rm -rf "${CONFIG_DIR}/sonarr.pid"
+chown -R agpsn:agpsn "${APP_DIR}" "${CONFIG_DIR}"

@@ -1,0 +1,5 @@
+#!/command/with-contenv bash
+umask "${UMASK}"
+cd "${APP_DIR}/sonarr/bin" || exit
+exec s6-setuidgid agpsn mono --debug "${APP_DIR}/sonarr/bin/Sonarr.exe" --nobrowser --data="${CONFIG_DIR}"
+

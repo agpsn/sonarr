@@ -1,0 +1,5 @@
+An optional regular file named flag-essential. 
+ The contents of this file are irrelevant, only its presence is tested. 
+ If this file exists, the service will be marked as essential, which means that a s6-rc -d change foo command will not stop the service. 
+ Only a s6-rc -D change foo command will. 
+ If the service is a bundle, the flag will be propagated to all its contents, i.e. all the services it represents will be marked as essential. 

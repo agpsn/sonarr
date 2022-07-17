@@ -1,0 +1,33 @@
+#!/command/with-contenv bash
+umask "${UMASK}"
+APP_VERSION=$(cat /app/app_version)
+echo "
+----------------------------------------------------------------------
+ENVIRONMENT
+----------------------------------------------------------------------
+PUID=${PUID}
+PGID=${PGID}
+UMASK=${UMASK}
+TZ=${TZ}
+VERSION=${APP_VERSION}
+APP_DIR=${APP_DIR}
+CONFIG_DIR=${CONFIG_DIR}
+----------------------------------------------------------------------
+"
+
+if [[ ! "${PUID}" -eq 0 ]] && [[ ! "${PGID}" -eq 0 ]]; then
+    echo "Executing usermod..."
+    mkdir "/tmp/temphome"
+    usermod -d "/tmp/temphome" agpsn
+    usermod -o -u "${PUID}" agpsn
+    usermod -d "${CONFIG_DIR}" agpsn
+    rm -rf "/tmp/temphome"
+    groupmod -o -g "${PGID}" agpsn
+else
+    echo "Running as root is not supported, please fix your PUID and PGID!"
+    exit 1
+fi
+
+echo "Applying permissions to ${CONFIG_DIR}"
+chmod "=rwx" "${CONFIG_DIR}"
+chown agpsn:agpsn "${CONFIG_DIR}"
