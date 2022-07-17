@@ -1,4 +1,4 @@
-FROM ghcr.io/agpsn/alpine-base:latest
+FROM ghcr.io/agpsn/base:latest
 
 ARG SBRANCH="main"
 ARG SVERSION
@@ -13,7 +13,7 @@ RUN set -xe && \
 	echo "***** setting version *****" && APP_VERSION=$(curl -sX GET http://services.sonarr.tv/v1/releases | jq -r ".[] | select(.branch==\"$SBRANCH\") | .version") && echo $APP_VERSION > /app/app_version
 
 # add local files
-COPY alpine-sonarr/root/ /
+COPY sonarr/root/ /
 
 # healthcheck
 HEALTHCHECK  --interval=30s --timeout=30s --start-period=10s --retries=5 CMD curl --fail http://localhost:8989 || exit 1
